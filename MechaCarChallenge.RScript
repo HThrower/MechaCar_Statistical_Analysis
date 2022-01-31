@@ -1,0 +1,43 @@
+# CHALLENGE 15: DELIVERABLE 1
+
+## Use the library() function to load the dplyr package
+library(jsonlite)
+library(rjson)
+library(tidyverse)
+library("dplyr") 
+## Import and read in the MechaCar_mpg.csv file as a dataframe.
+MPG <- read_csv("MechaCar_mpg.csv")
+## Perform linear regression using the lm() function & Using the summary()
+lm(mpg ~ vehicle_length + vehicle_weight + spoiler_angle + ground_clearance + AWD, data=MPG)
+summary(lm(mpg ~ vehicle_length + vehicle_weight + spoiler_angle + ground_clearance + AWD, data=MPG)) 
+#Additional Step: eliminate the independent variables that have little impact on predicting mpg to see impact
+lm(mpg ~ vehicle_length + ground_clearance, data=MPG)
+summary(lm(mpg ~ vehicle_length + ground_clearance, data=MPG)) 
+
+
+#  CHALLENGE 15: DELIVERABLE 2
+
+## Import and read in the Suspension_Coil.csv file as a table
+car_coil <- read_csv("Suspension_Coil.csv")
+car_coil 
+##Create a total_summary dataframe using the summarize() function to get the mean, median, variance, and standard deviation of the suspension coil’s PSI column.
+Mean = mean(car_coil$PSI)
+Median=median(car_coil$PSI)
+Variance=var(car_coil$PSI)
+SD = sd(car_coil$PSI)
+## Total_Summary Data Frame
+total_Summary <- data.frame(Mean,Median,Variance,SD) 
+#summary by lot
+lot_summary <- car_coil %>% group_by(Manufacturing_Lot) %>% summarize(Mean=mean(PSI),Median = median(PSI),Variance = var(PSI),SD = sd(PSI), .groups = 'keep') 
+
+
+# Deliverable 3: T-Tests on Suspension Coils
+
+## t-test for all lots
+t.test((car_coil$PSI),mu = 1500)
+## t-test for each lot
+t.test(subset(car_coil,Manufacturing_Lot =="Lot1")$PSI,mu = 1500)
+t.test(subset(car_coil,Manufacturing_Lot =="Lot2")$PSI,mu = 1500)
+t.test(subset(car_coil,Manufacturing_Lot =="Lot3")$PSI,mu = 1500)
+
+
